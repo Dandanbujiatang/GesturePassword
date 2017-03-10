@@ -31,5 +31,5 @@ public class Point {
         return (index - 1) / 3;
     }
 
-    //---------------
+    //------------
 }
