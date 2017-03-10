@@ -121,17 +121,18 @@ public class Gesture extends View {
         b = x * 5 / 3;
         r = width / 50;
         list = new ArrayList();
-        list.add(new Point(a, a, 0));
-        list.add(new Point(x, a, 1));
-        list.add(new Point(b, a, 2));
+        int i  = 1;
+        list.add(new Point(a, a, i++));
+        list.add(new Point(x, a, i++));
+        list.add(new Point(b, a, i++));
 
-        list.add(new Point(a, x, 3));
-        list.add(new Point(x, x, 4));
-        list.add(new Point(b, x, 5));
+        list.add(new Point(a, x, i++));
+        list.add(new Point(x, x, i++));
+        list.add(new Point(b, x, i++));
 
-        list.add(new Point(a, b, 6));
-        list.add(new Point(x, b, 7));
-        list.add(new Point(b, b, 8));
+        list.add(new Point(a, b, i++));
+        list.add(new Point(x, b, i++));
+        list.add(new Point(b, b, i++));
 
         initPaint();
     }
@@ -209,6 +210,14 @@ public class Gesture extends View {
      */
     public void setOnCompleteListener(OnCompleteListener mCompleteListener) {
         this.mCompleteListener = mCompleteListener;
+    }
+
+    public void reset() {
+        isFinish = false;
+        isTouch = true;
+        checking = false;
+        selectList.clear();
+        invalidate();
     }
 
     public interface OnCompleteListener {

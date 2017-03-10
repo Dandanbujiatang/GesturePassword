@@ -7,8 +7,15 @@
     android:background="#000000"
     tools:context="com.example.dandan.gesturepassword.MainActivity">
 
+    <Button
+        android:id="@+id/reset"
+        android:layout_marginTop="10dip"
+        android:layout_width="200dip"
+        android:layout_height="50dip"
+        android:text="reset"
+        android:layout_centerHorizontal="true"/>
+
     <com.example.dandan.gesturepassword.Gesture
-        android:background="#ff0000"
         android:layout_width="300dip"
         android:layout_height="300dip"
         android:layout_centerHorizontal="true"

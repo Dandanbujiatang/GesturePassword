@@ -2,17 +2,22 @@ package com.example.dandan.gesturepassword;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+
+    private Button reset;
+    private Gesture gesture;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Gesture gesture = (Gesture) findViewById(R.id.gesture);
+        gesture = (Gesture) findViewById(R.id.gesture);
         gesture.setOnCompleteListener(new Gesture.OnCompleteListener() {
             @Override
             public void onComplete(List<Point> password) {
@@ -23,6 +28,13 @@ public class MainActivity extends AppCompatActivity {
                     sb.append(point.index + ",");
                 }
                 System.out.println(sb.toString());
+            }
+        });
+        reset = (Button) findViewById(R.id.reset);
+        reset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                gesture.reset();
             }
         });
     }
