@@ -22,5 +22,11 @@
         android:layout_centerVertical="true"
         android:id="@+id/gesture" />
 
+    <TextView
+        android:id="@+id/password"
+        android:layout_width="match_parent"
+        android:layout_height="100dip"
+        android:layout_alignParentBottom="true"
+        android:textColor="#fff"/>
 
 </RelativeLayout>

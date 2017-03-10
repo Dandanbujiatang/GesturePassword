@@ -4,13 +4,16 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.os.SystemClock;
 import android.os.Vibrator;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by dandan on 2017/3/7.
@@ -37,6 +40,8 @@ public class Gesture extends View {
     private float moveX;
     private float moveY;
     private boolean isTouch = true;
+    private Set<Integer> set = new HashSet<>();
+    private boolean isError = false;
 
     public Gesture(Context context) {
         this(context, null);
@@ -67,6 +72,7 @@ public class Gesture extends View {
         for (int i = 0; i < list.size(); i++)
             canvas.drawCircle(list.get(i).x, list.get(i).y, r, bgPaint);
 
+
         if (checking) {
             if (selectList != null && selectList.size() > 1) {
                 //两个以上
@@ -75,7 +81,11 @@ public class Gesture extends View {
                     float firstY = selectList.get(i).y;
                     float secX = selectList.get(i + 1).x;
                     float secY = selectList.get(i + 1).y;
-                    canvas.drawLine(firstX,firstY,secX,secY,linePaint);
+                    if(selectList.get(i).state == 0)
+                        canvas.drawLine(firstX,firstY,secX,secY,linePaint);
+                    else
+                        canvas.drawLine(firstX, firstY, secX, secY, errorPaint);
+
                 }
             }
 
@@ -86,7 +96,20 @@ public class Gesture extends View {
                 canvas.drawLine(lastX, lastY, moveX, moveY, linePaint);
             }
         }
-
+        if(isError)
+        {
+            for (int i : set)
+            {
+                for(Point p : list)
+                {
+                    if(p.index == i)
+                    {
+                        canvas.drawCircle(p.x,p.y,r*1.5f,errorPaint);
+                        break;
+                    }
+                }
+            }
+        }
 
     }
 
@@ -109,8 +132,9 @@ public class Gesture extends View {
         selectedPaint.setAntiAlias(true);
 
         errorPaint = new Paint();
-        errorPaint.setStyle(Paint.Style.STROKE);
+        errorPaint.setStyle(Paint.Style.FILL);
         errorPaint.setAntiAlias(true);
+        errorPaint.setColor(Color.parseColor("#ff0000"));;
         errorPaint.setStrokeWidth(r);
 
     }
@@ -171,9 +195,11 @@ public class Gesture extends View {
 
             if (selectList.size() < 1) {
                 selectList.add(p);
+                set.add(p.index);
                 z();
             } else if (selectList.get(selectList.size() - 1).x != p.x || selectList.get(selectList.size() - 1).y != p.y) {
                 selectList.add(p);
+                set.add(p.index);
                 z();
             }
         }
@@ -217,7 +243,15 @@ public class Gesture extends View {
         isTouch = true;
         checking = false;
         selectList.clear();
+        set.clear();
         invalidate();
+        isError = false;
+    }
+
+    public void setError() {
+        isError = true;
+        for(Point p : selectList)
+            p.state = 2;
     }
 
     public interface OnCompleteListener {
