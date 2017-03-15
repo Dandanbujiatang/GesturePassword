@@ -23,7 +23,8 @@ public class MainActivity extends AppCompatActivity {
         gesture.setOnCompleteListener(new Gesture.OnCompleteListener() {
             @Override
             public void onComplete(List<Point> password) {
-                System.out.println("aaa");
+                if(password ==null || password.size()<=0)
+                    return;
                 StringBuffer sb = new StringBuffer();
                 for(Point point : password)
                 {

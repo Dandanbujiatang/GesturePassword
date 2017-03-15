@@ -177,6 +177,8 @@ public class Gesture extends View {
                 if (p != null) {
                     checking = true;
                 }
+                moveX = ex;
+                moveY = ey;
                 break;
             case MotionEvent.ACTION_MOVE:
                 p = checkSelectPoint(ex, ey);
@@ -187,8 +189,10 @@ public class Gesture extends View {
                 }
                 break;
             case MotionEvent.ACTION_UP:
-                isFinish = true;
-                isTouch = false;
+                if(checking) {
+                    isFinish = true;
+                    isTouch = false;
+                }
                 break;
         }
         if (!isFinish && checking && p != null && selectList.size() < 200) {
