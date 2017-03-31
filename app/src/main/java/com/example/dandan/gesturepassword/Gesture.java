@@ -249,6 +249,11 @@ public class Gesture extends View {
         selectList.clear();
         set.clear();
         invalidate();
+
+
+
+
+        
         isError = false;
     }
 
