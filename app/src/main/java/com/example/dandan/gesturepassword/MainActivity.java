@@ -13,6 +13,7 @@ public class MainActivity extends AppCompatActivity {
     private Button reset;
     private Gesture gesture;
     private TextView tv_password;
+    private boolean isSelectedSamePoint = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,5 +44,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         tv_password = (TextView) findViewById(R.id.password);
+        Button set_count = (Button) findViewById(R.id.set_count);
+        set_count.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isSelectedSamePoint = !isSelectedSamePoint;
+                gesture.setSelectedSamePoint(isSelectedSamePoint);
+            }
+        });
     }
 }

@@ -14,21 +14,13 @@
         android:layout_height="50dip"
         android:text="reset"
         android:layout_centerHorizontal="true"/>
-    <EditText
-        android:id="@+id/et_count"
-        android:layout_width="200dip"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/reset"
-        android:textColor="#fff"
-        android:inputType="number"
-        android:layout_centerHorizontal="true"
-        />
+
     <Button
         android:layout_marginTop="10dip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="set count"
-        android:layout_toRightOf="@+id/et_count"
+        android:text="Selected_Same_Point"
+        android:layout_toRightOf="@+id/reset"
         android:id="@+id/set_count"
         />
 

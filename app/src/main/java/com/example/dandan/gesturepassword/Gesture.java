@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.os.SystemClock;
 import android.os.Vibrator;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -42,6 +41,7 @@ public class Gesture extends View {
     private boolean isTouch = true;
     private Set<Integer> set = new HashSet<>();
     private boolean isError = false;
+    private boolean isSelectedSamePoint;
 
     public Gesture(Context context) {
         this(context, null);
@@ -197,14 +197,32 @@ public class Gesture extends View {
         }
         if (!isFinish && checking && p != null && selectList.size() < 200) {
 
-            if (selectList.size() < 1) {
+            if (selectList.size() < 1) {//第一次不用判断上一个点
                 selectList.add(p);
                 set.add(p.index);
                 z();
-            } else if (selectList.get(selectList.size() - 1).x != p.x || selectList.get(selectList.size() - 1).y != p.y) {
-                selectList.add(p);
-                set.add(p.index);
-                z();
+            } else if (selectList.get(selectList.size() - 1).x != p.x || selectList.get(selectList.size() - 1).y != p.y) {//判断不是上一个点
+                //能否多次连同一个点
+                if(isSelectedSamePoint)
+                {
+                    selectList.add(p);
+                    set.add(p.index);
+                    z();
+                }
+                else {
+                    boolean isSelected = false;
+                    for (int i = 0; i < selectList.size(); i++) {
+                        if (selectList.get(i).index == p.index) {
+                            isSelected = true;
+                            break;
+                        }
+                    }
+                    if (!isSelected) {
+                        selectList.add(p);
+                        set.add(p.index);
+                        z();
+                    }
+                }
             }
         }
 
@@ -229,7 +247,7 @@ public class Gesture extends View {
 
     private void z() {
         vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
-        vibrator.vibrate(200);
+        vibrator.vibrate(20);
     }
 
 
@@ -261,6 +279,11 @@ public class Gesture extends View {
         isError = true;
         for(Point p : selectList)
             p.state = 2;
+    }
+
+    public void setSelectedSamePoint(boolean isSelectedSamePoint) {
+        this.isSelectedSamePoint = isSelectedSamePoint;
+        reset();
     }
 
     public interface OnCompleteListener {
